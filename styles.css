@@ -1,0 +1,165 @@
+/* ============ Connect Four — theme ============ */
+:root {
+  --bg: #0d0d0d;
+  --panel: #161616;
+  --gold: #e8b53a;
+  --red: #e5484d;
+  --text: #f2f2f2;
+  --muted: #9a9a9a;
+  --border: #2a2a2a;
+  --board: #16294d;          /* classic connect-four blue */
+  --hole: #0b1526;           /* empty slot color */
+  --cell: 60px;
+  --gap: 8px;
+  --step: 68px;              /* cell + gap: how far a disc falls per row */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+header { text-align: center; }
+header h1 { font-size: 2rem; margin-bottom: .4rem; }
+header h1 .gold { color: var(--gold); }
+header p { color: var(--muted); }
+.day {
+  display: inline-block;
+  margin-top: .5rem;
+  font-size: .8rem;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  border-radius: 999px;
+  padding: .2rem .8rem;
+}
+
+/* ============ Mode picker & buttons ============ */
+.modes { display: flex; gap: .5rem; flex-wrap: wrap; justify-content: center; }
+
+button {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .55rem 1rem;
+  font-size: .9rem;
+  cursor: pointer;
+  transition: transform .1s, border-color .1s;
+}
+button:hover { border-color: var(--gold); transform: translateY(-1px); }
+button.active { border-color: var(--gold); color: var(--gold); }
+button.primary { background: var(--gold); color: #111; font-weight: 700; border: none; }
+
+.actions { display: flex; gap: .6rem; }
+
+/* ============ Status message ============ */
+#status {
+  min-height: 1.6em;
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text);
+}
+#status.thinking { color: var(--muted); font-style: italic; }
+
+/* ============ The board ============ */
+#board {
+  display: grid;
+  grid-template-columns: repeat(7, var(--cell));
+  gap: var(--gap);
+  background: var(--board);
+  padding: 14px;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .5);
+}
+
+.cell {
+  width: var(--cell);
+  height: var(--cell);
+  border-radius: 50%;
+  background: var(--hole);
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, .6);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden; /* keeps the falling disc inside the slot */
+}
+.cell:hover { outline: 2px solid var(--gold); }
+
+/* ============ Discs ============ */
+.disc {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+.disc.p1 { /* Player 1: gold */
+  background: radial-gradient(circle at 35% 35%, #f5d47a, var(--gold) 60%, #9a6f1c);
+}
+.disc.p2 { /* Player 2 / AI: crimson */
+  background: radial-gradient(circle at 35% 35%, #ff8a8e, var(--red) 60%, #8f1d21);
+}
+/* Drop animation: the disc starts --dist pixels above and falls into place. */
+.disc.drop { animation: drop .45s ease-in; }
+@keyframes drop {
+  from { transform: translateY(calc(var(--dist) * -1)); }
+  to   { transform: translateY(0); }
+}
+/* The four winning discs glow white. */
+.disc.win {
+  outline: 3px solid #fff;
+  box-shadow: 0 0 18px #fff;
+  animation: pulse 1s ease-in-out infinite;
+}
+@keyframes pulse {
+  50% { box-shadow: 0 0 30px #fff; }
+}
+
+/* ============ Scoreboard ============ */
+.scoreboard {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  justify-content: center;
+}
+.score {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .6rem 1.2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  font-size: .85rem;
+  color: var(--muted);
+}
+.score strong { font-size: 1.4rem; color: var(--text); }
+.score.p1 strong { color: var(--gold); }
+.score.p2 strong { color: var(--red); }
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: .8rem;
+  line-height: 1.6;
+}
+
+/* Smaller screens: shrink the board so it fits. */
+@media (max-width: 560px) {
+  :root { --cell: 42px; --gap: 6px; --step: 48px; }
+}

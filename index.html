@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connect Four — Day 20</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🔴 Connect Four <span class="gold">🟡</span></h1>
+      <p>Drop four in a row before your opponent does. Play a friend — or take on the AI.</p>
+      <span class="day">Day 20 · featured build</span>
+    </header>
+
+    <!-- Game mode picker -->
+    <div class="modes">
+      <button data-mode="2p">👥 2 Players</button>
+      <button data-mode="ai-easy">🤖 Easy AI</button>
+      <button data-mode="ai-medium" class="active">🤖 Medium AI</button>
+      <button data-mode="ai-hard">🤖 Hard AI</button>
+    </div>
+
+    <!-- Turn / result message -->
+    <div id="status">Player 1's turn — click a column to drop a disc!</div>
+
+    <!-- The board is rendered here by app.js -->
+    <div id="board" role="grid" aria-label="Connect Four board"></div>
+
+    <!-- Scoreboard, saved in localStorage -->
+    <div class="scoreboard">
+      <div class="score p1"><span id="label-p1">Player 1</span><strong id="score-p1">0</strong></div>
+      <div class="score draws">Draws<strong id="score-draws">0</strong></div>
+      <div class="score p2"><span id="label-p2">AI</span><strong id="score-p2">0</strong></div>
+    </div>
+
+    <div class="actions">
+      <button id="btn-new" class="primary">🔄 New game</button>
+      <button id="btn-reset-scores">Reset scores</button>
+    </div>
+
+    <footer>
+      Hard mode uses <strong>minimax with alpha-beta pruning</strong> — it looks 4 moves ahead.<br>
+      Can you beat it? Built as Day 20 of a daily coding streak.
+    </footer>
+  </div>
+
+  <script src="ai.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
